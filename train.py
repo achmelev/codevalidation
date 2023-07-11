@@ -2,6 +2,7 @@ import torch
 import torch.optim as optim
 import torch.nn as nn
 from torch import linalg as LA
+from time import time
 
 from numbercode import NumberCode 
 from dataset import NumberCodeDataSet
@@ -11,7 +12,7 @@ from torch.utils.data import DataLoader
 batch_size = 16
 trainset = NumberCodeDataSet(100000)
 loader = DataLoader(trainset, batch_size = batch_size, shuffle = True)
-model = NumberCodeModel(hiddenLayerOrder=2)
+model = NumberCodeModel(hiddenLayerOrder=4)
 model.init_origin()
 
 criterion = nn.CrossEntropyLoss()
@@ -20,9 +21,12 @@ optimizer = optim.Adam(model.parameters(), 0.001)
 
 numberOfEpochs = 1000
 min_validation_loss = 10.0
+epochCounter = 0
+trainingTime = 0.0
 for epoch in range(numberOfEpochs):  # loop over the dataset multiple times
 
     ##Training loop 
+    start_time = time()
     running_loss = 0.0
     for i, data in enumerate(loader, 0):
         input = data['input']
@@ -46,6 +50,12 @@ for epoch in range(numberOfEpochs):  # loop over the dataset multiple times
             print("Grads norm = "+str(model.grads_norm()))
             print("#############################################################################")
             running_loss = 0.0
+    end_time = time()
+    epochCounter+=1
+    trainingTime+=(end_time-start_time)
+    totalTrainingTime = int(round(trainingTime))
+    trainingTimePerEpoch = int(round(trainingTime/float(epochCounter)))
+    print("Trained "+str(epochCounter)+" Epochs in "+str(totalTrainingTime)+" seconds, "+str(trainingTimePerEpoch)+" seconds per epoch")
 
     ##Validation loop
     validation_loss = 0.0

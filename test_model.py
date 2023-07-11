@@ -5,7 +5,7 @@ from numbercode import NumberCode
 from dataset import NumberCodeDataSet
 import torch.nn as nn
 
-model = NumberCodeModel(hiddenLayerOrder=2)
+model = NumberCodeModel(hiddenLayerOrder=4)
 
 model.load_state_dict(torch.load("saved_model.pth"))
 
