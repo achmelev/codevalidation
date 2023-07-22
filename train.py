@@ -75,7 +75,9 @@ for epoch in range(numberOfEpochs):  # loop over the dataset multiple times
     validation_loader = DataLoader(validation_set, batch_size = batch_size, shuffle = True)
     for data in validation_loader:
         input = data['input']
+        input = input.to(device)
         result = data['result']
+        result = result.to(device)
 
         # forward 
         output = model(input)
