@@ -9,6 +9,15 @@ from dataset import NumberCodeDataSet
 from model import NumberCodeModel 
 from torch.utils.data import DataLoader
 
+if torch.cuda.is_available():
+  print("CUDA is available, running on it")
+  device = torch.device("cuda")
+else:
+  print("CUDA isn't available, running on CPU")
+  device = torch.device("cpu")
+
+torch.set_default_device(device)
+
 batch_size = 16
 trainset = NumberCodeDataSet(100000)
 loader = DataLoader(trainset, batch_size = batch_size, shuffle = True)
@@ -19,13 +28,6 @@ criterion = nn.CrossEntropyLoss()
 ##optimizer = optim.SGD(model.parameters(), lr=10.0)
 optimizer = optim.Adam(model.parameters(), 0.001)
 
-if torch.cuda.is_available():
-  print("CUDA is available, running on it")
-  device = torch.device("cuda")
-else:
-  print("CUDA isn't available, running on CPU")
-  device = torch.device("cpu")
-model.to(device)
 
 numberOfEpochs = 1000
 min_validation_loss = 10.0
