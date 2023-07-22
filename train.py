@@ -19,6 +19,14 @@ criterion = nn.CrossEntropyLoss()
 ##optimizer = optim.SGD(model.parameters(), lr=10.0)
 optimizer = optim.Adam(model.parameters(), 0.001)
 
+if torch.cuda.is_available():
+  print("CUDA is available, running on it")
+  device = torch.device("cuda")
+else:
+  print("CUDA isn't available, running on CPU")
+  device = torch.device("cpu")
+model.to(device)
+
 numberOfEpochs = 1000
 min_validation_loss = 10.0
 epochCounter = 0
