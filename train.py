@@ -2,6 +2,7 @@ import torch
 import torch.optim as optim
 import torch.nn as nn
 from torch import linalg as LA
+from torch import Generator
 from time import time
 
 from numbercode import NumberCode 
@@ -20,7 +21,7 @@ torch.set_default_device(device)
 
 batch_size = 16
 trainset = NumberCodeDataSet(100000)
-loader = DataLoader(trainset, batch_size = batch_size, shuffle = True)
+loader = DataLoader(trainset, batch_size = batch_size, shuffle = True, generator = Generator(device))
 model = NumberCodeModel(hiddenLayerOrder=4)
 model.init_origin()
 
