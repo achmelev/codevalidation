@@ -17,11 +17,9 @@ else:
   print("CUDA isn't available, running on CPU")
   device = torch.device("cpu")
 
-torch.set_default_device(device)
-
 batch_size = 16
 trainset = NumberCodeDataSet(100000)
-loader = DataLoader(trainset, batch_size = batch_size, shuffle = True, generator = Generator(device))
+loader = DataLoader(trainset, batch_size = batch_size, shuffle = True)
 model = NumberCodeModel(hiddenLayerOrder=4)
 model.init_origin()
 
@@ -30,6 +28,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), 0.001)
 
 
+model.to(device)
 numberOfEpochs = 1000
 min_validation_loss = 10.0
 epochCounter = 0
@@ -41,7 +40,9 @@ for epoch in range(numberOfEpochs):  # loop over the dataset multiple times
     running_loss = 0.0
     for i, data in enumerate(loader, 0):
         input = data['input']
+        input.to(device)
         result = data['result']
+        result.to(device)
 
         # zero the parameter gradients
         optimizer.zero_grad()
