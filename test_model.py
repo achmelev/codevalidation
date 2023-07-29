@@ -4,8 +4,17 @@ from model import NumberCodeModel
 from numbercode import NumberCode 
 from dataset import NumberCodeDataSet
 import torch.nn as nn
+import sys
+from configparser import ConfigParser
 
-model = NumberCodeModel(hiddenLayerOrder=4)
+config = ConfigParser()
+config.read('train.conf')
+enviroment = sys.argv[1]
+
+print("Testing training result from env "+enviroment)
+
+NumberCode.codeWith = config.getint(enviroment, 'width')
+model = NumberCodeModel(hiddenLayerOrder=config.getint(enviroment, 'hidden_layer_size'))
 
 model.load_state_dict(torch.load("saved_model.pth"))
 
