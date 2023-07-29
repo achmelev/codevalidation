@@ -12,7 +12,7 @@ class NumberCodeModel(nn.Module):
         hiddenLayerSize = 2**hiddenLayerOrder
         self.network = nn.Sequential()
         ## Input Layer
-        self.network.append(nn.Linear(NumberCode.codeWith,hiddenLayerSize))
+        self.network.append(nn.Linear(NumberCode.codeWith*10,hiddenLayerSize))
         self.network.append(nn.ReLU())
 
         while hiddenLayerSize > 4:
