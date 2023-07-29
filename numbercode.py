@@ -1,17 +1,20 @@
 from random import randint
 
 class NumberCode:
+
+    codeWith = 10
+
     def __init__(self, code) -> None:
         self.code = code.strip()
+        if (len(self.code) != self.codeWith):
+            raise Exception("Wrong code with "+len(self.code)+'instead of '+self.code.width) 
     
     def validate(self):
-        if (len(self.code) != 10):
-            return False
-        return (self.calculateValidationSum() == int(self.code[9]))
+        return (self.calculateValidationSum() == int(self.code[self.codeWith-1]))
         
     def calculateValidationSum(self):
         numbers = []
-        for i in range(9):
+        for i in range(self.codeWith-1):
             numbers.append(int(self.code[i]))
         return max(numbers)
     
@@ -19,7 +22,7 @@ class NumberCode:
     def createRandomCode(wrong = False):
         result = ""
         numbers = []
-        for i in range(9):
+        for i in range(NumberCode.codeWith-1):
             digit = randint(0,9)
             numbers.append(digit)
             result+=str(digit)
