@@ -1,6 +1,7 @@
 from numbercode import NumberCode 
 import sys
 from random import choice
+from dataset import createOutputAsIndex
 
 NumberCode.codeWith = int(sys.argv[1])
 number_of_items = int(sys.argv[2])
@@ -15,7 +16,8 @@ for i in range(number_of_items):
     code = NumberCode.createRandomCode(wrongValue)
     if ((i+1)%1000 == 0):
         print("Written "+str(i+1)+" codes...")
-    f.write(code.code)
+    f.write(code.code+str(createOutputAsIndex(not wrongValue)))
+
 
 f.close()
 

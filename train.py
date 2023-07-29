@@ -7,6 +7,7 @@ from time import time
 
 from numbercode import NumberCode 
 from dataset import NumberCodeDataSet
+from dataset import FileNumberCodeDataSet
 from model import NumberCodeModel 
 from torch.utils.data import DataLoader
 from configparser import ConfigParser
@@ -28,9 +29,9 @@ device = torch.device(deviceName)
 
 print("Creating data and model...")
 batch_size = config.getint(enviroment, 'batch_size')
-trainset = NumberCodeDataSet(config.getint(enviroment, 'dataset_size'))
+trainset = FileNumberCodeDataSet(config.get(enviroment, 'dataset_file'))
 loader = DataLoader(trainset, batch_size = batch_size, shuffle = True)
-validation_set = NumberCodeDataSet(config.getint(enviroment, 'dataset_size'))
+validation_set = FileNumberCodeDataSet(config.get(enviroment, 'validation_dataset_file'))
 validation_loader = DataLoader(validation_set, batch_size = batch_size, shuffle = True)
 model = NumberCodeModel(hiddenLayerOrder=config.getint(enviroment, 'hidden_layer_size'))
 model.to(device)
@@ -111,7 +112,7 @@ for epoch in range(numberOfEpochs):  # loop over the dataset multiple times
     if (min_validation_loss > validation_loss):
         stopCounter = 0
         print("VALIDATION LOSS = "+str(validation_loss))
-        torch.save(model.state_dict(), 'saved_model.pth')
+        torch.save(model.state_dict(), config.get(enviroment,'model_file'))
         min_validation_loss = validation_loss
         if (min_validation_loss < stop_validation_loss):
            break
