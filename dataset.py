@@ -43,12 +43,15 @@ class FileNumberCodeDataSet(Dataset):
         if (size%(NumberCode.codeWith*10+1) != 0):
             raise Exception("File size isn't a multiple of "+str(NumberCode.codeWith*10+1))
         self.len = int(getsize(filename)/(NumberCode.codeWith*10+1))
-        self.file = open(filename,'r')
+        self.filename = filename
+        self.file = None
     
     def __len__(self):
         return self.len
     
     def __getitem__(self, idx):
+        if (self.file == None):
+            self.file = open(self.filename,'r')
         self.file.seek((NumberCode.codeWith*10+1)*idx)
         itemStr = self.file.read(NumberCode.codeWith*10+1)
         input = createInputAsFloatList(itemStr[:NumberCode.codeWith*10])

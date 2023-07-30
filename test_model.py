@@ -20,9 +20,12 @@ model.load_state_dict(torch.load(config.get(enviroment,'model_file')))
 
 counter = 0
 counterSuccess = 0
+counterValid = 0
 
 for i in range(1000):
     wrongValue = choice((True, False))
+    if wrongValue:
+        counterValid = counterValid +1
     code = NumberCode.createRandomCode(wrong=wrongValue)
     counter = counter+1
     input = torch.FloatTensor(createInputAsFloatList(code.code))
@@ -34,6 +37,6 @@ for i in range(1000):
     if (calculatedResult == expectedResult):
         counterSuccess = counterSuccess+1
 
-print(str(counterSuccess)+" successes from "+str(counter)+" trials")
+print(str(counterSuccess)+" successes from "+str(counter)+" trials with "+str(counterValid)+" valid codes")
     
     
