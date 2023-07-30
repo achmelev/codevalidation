@@ -39,6 +39,9 @@ class NumberCodeModel(nn.Module):
             for p in params:
                 tensorlist.append(p.data.view(-1))
             return torch.cat(tensorlist, 0)
+        
+    def number_of_params(self):
+        return self.all_params(self).size(0)
     
     def all_grads(self):
         params = self.parameters()

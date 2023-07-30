@@ -45,12 +45,16 @@ optimizer = optim.Adam(model.parameters(), lr)
 
 numberOfEpochs = config.getint(enviroment, 'max_epochs')
 stop_limit = config.getint(enviroment, 'early_stopping_epochs')
+stop_validation_loss = config.getfloat(enviroment, "stop_validation_loss")
 min_validation_loss = 10.0
 epochCounter = 0
 stopCounter = 0
 trainingTime = 0.0
 calculationTime = 0.0
-print('Training for max '+str(numberOfEpochs)+" epochs on "+deviceName+" with learning rate "+str(lr))
+print("######################################################################################################################################################")
+print("Training model with "+str(model.number_of_params())+" parameters for max "+str(numberOfEpochs)+" epochs on "+deviceName+" with learning rate "+str(lr))
+print("Early stopping after "+str(stop_limit)+ " epochs with no improvement or after reaching validation loss of "+str(stop_validation_loss))
+print("######################################################################################################################################################")
 for epoch in range(numberOfEpochs):  # loop over the dataset multiple times
 
     ##Training loop 
@@ -93,7 +97,6 @@ for epoch in range(numberOfEpochs):  # loop over the dataset multiple times
 
     ##Validation loop
     validation_loss = 0.0
-    stop_validation_loss = config.getfloat(enviroment, "stop_validation_loss")
     counter = 0
     for data in validation_loader:
         input = data['input']
