@@ -1,5 +1,5 @@
 #import torch
-from numbercode import NumberCode
+from numbercode import NumberCode, createRandomCode
 from dataset import NumberCodeDataSet
 from model import NumberCodeModel
 from random import randint
@@ -24,5 +24,5 @@ NumberCode.codeWith = 5
 for i in range(10):
     rint = randint(0,10)
     rWrong = rint > 5
-    code = NumberCode.createRandomCode(wrong = rWrong)
+    code = createRandomCode(wrong = rWrong)
     print ("Wrong = "+str(rWrong)+", code " +code.code+", validation = "+str(code.validate()))
