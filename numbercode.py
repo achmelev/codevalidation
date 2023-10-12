@@ -23,7 +23,7 @@ def createRandomCode(wrong = False):
                 return code
     else:
         for index in range(NumberCode.codeWith):
-            candidate+=str(calculateValidationSum(result, index))
+            result+=str(calculateValidationSum(result, index))
         return NumberCode(result)
 
 class NumberCode:
